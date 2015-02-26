@@ -13,7 +13,7 @@
 # Copyright 2015 Dan Foster, unless otherwise noted.
 #
 class projects (
-  basedir = '/srv/projects'
+  $basedir = '/srv/projects'
 ) inherits ::projects::params {
 
   file { $basedir:
@@ -36,25 +36,27 @@ define projects::project (
   $apache = {},
   $uid = undef,
   $gid = undef,
-  $comment = ""
+  $users = [],
+  $description = ""
 ) {
 
   # If least one project definition exists for this host, creaste the base structure
   if ($apache != {}) {
     user { $title:
-      comment => $comment,
+      comment => $description,
       uid     => $uid,
       gid     => $gid,
-      home    => '$basedir/$title'
+      home    => "$::projects::basedir/$title"
     }
 
     group { $title:
-      comment => $comment,
       gid     => $gid,
     }
 
-    file { '$basedir/$title':
-      ensure => directory
+    file { "$::projects::basedir/$title":
+      ensure => directory,
+      owner  => $title,
+      group  => $title
     }
   }
 
