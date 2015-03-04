@@ -23,8 +23,8 @@ class projects (
     group  => root
   }
 
-  $projects = hiera_hash('::projects',{})
-  create_resources('::projects::project', $projects)
+  $projects = hiera_hash('projects',{})
+  create_resources('projects::project', $projects)
 
 
 }
@@ -53,29 +53,21 @@ define projects::project (
       gid     => $gid,
     }
 
-    file { "$::projects::basedir/$title":
+    file { [ "$::projects::basedir/$title",
+    	     "$::projects::basedir/$title/var",
+    	     "$::projects::basedir/$title/etc",
+           ] :
       ensure => directory,
       owner  => $title,
       group  => $title
     }
 
-    file { "$::projects::basedir/$title/var":
-      ensure => directory,
-      owner  => $title,
-      group  => $title
-    }
-
-    file { "$::projects::basedir/$title/etc":
-      ensure => directory,
-      owner  => $title,
-      group  => $title
-    }
   }
 
   # Create apache vhosts
-  if defined(Class['apache']) {
-    projects::project::apache { $name:
-      vhosts = $apache
+  if ($apache != {}) {
+    projects::project::apache { $title:
+      vhosts => $apache
     }
   }
 }
@@ -87,21 +79,22 @@ define projects::project::apache (
   $vhosts = {}
 ) {
 
-    file { "$::projects::basedir/$projectnamei/var/www":
-      ensure => directory,
-      owner  => $title,
-      group  => $title
+    file { "$::projects::basedir/$title/var/www":
+      ensure  => directory,
+      owner   => $title,
+      group   => $title,
+      require => File["$::projects::basedir/$title/var"],
     }
 
-    file { "$::projects::basedir/$projectnamei/etc/apache":
-      ensure => directory,
-      owner  => $title,
-      group  => $title
+    file { "$::projects::basedir/$title/etc/apache":
+      ensure  => directory,
+      owner   => $title,
+      group   => $title,
+      require => File["$::projects::basedir/$title/etc"],
     }
 
-    each($vhosts) |$k,$v| 
-    {
-    }
+#    each($vhosts) |$k,$v| {
+#    }
     create_resources('apache::vhost', $vhosts)
 }
 
