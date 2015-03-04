@@ -101,9 +101,11 @@ define projects::project::apache (
   }
 
   create_resources('::projects::project::apache::vhost', $vhosts, {
-    'projectname' => $title
+    'projectname' => $title,
   })
-  create_resources('::apache::vhost', $vhosts)
+  create_resources('::apache::vhost', $vhosts, {
+    'docroot'     => "$::projects::basedir/$title/var/www",
+  })
 
 }
 
