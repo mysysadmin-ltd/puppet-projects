@@ -83,6 +83,7 @@ define projects::project::apache (
     ensure  => directory,
     owner   => $title,
     group   => $title,
+    seltype => 'httpd_sys_content_t',
     require => File["$::projects::basedir/$title/var"],
   }
 
