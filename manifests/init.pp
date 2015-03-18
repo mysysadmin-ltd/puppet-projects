@@ -51,6 +51,7 @@ define projects::project (
 
     group { $title:
       gid     => $gid,
+      members => $users,
     }
 
     file { [ "$::projects::basedir/$title",
