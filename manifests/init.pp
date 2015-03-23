@@ -54,6 +54,10 @@ define projects::project (
       members => $users,
     }
 
+    project_user { $users:
+      group => $title
+    }
+
     file { [ "$::projects::basedir/$title",
     	     "$::projects::basedir/$title/var",
     	     "$::projects::basedir/$title/etc",
@@ -70,6 +74,14 @@ define projects::project (
     projects::project::apache { $title:
       vhosts => $apache
     }
+  }
+}
+
+define project_user (
+  $group = undef
+) {
+  User <| title == $title |> {
+    groups +> $group,
   }
 }
 
