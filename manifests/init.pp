@@ -96,6 +96,7 @@ define projects::project::apache (
     ensure  => directory,
     owner   => $title,
     group   => $title,
+    mode    => 0770,
     seltype => 'httpd_sys_content_t',
     require => File["$::projects::basedir/$title/var"],
   }
@@ -111,6 +112,7 @@ define projects::project::apache (
     ensure  => directory,
     owner   => $title,
     group   => $title,
+    mode    => 0770,
     require => File["$::projects::basedir/$title/etc/apache"],
   }
 
