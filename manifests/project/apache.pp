@@ -33,10 +33,6 @@ define projects::project::apache (
   create_resources('::projects::project::apache::vhost', $vhosts, {
     'projectname' => $title,
   })
-  create_resources('::apache::vhost', $vhosts, {
-    'docroot'     => "$::projects::basedir/$title/var/www",
-  })
-
 }
 
 # -- Resource type: project::apache::vhost
@@ -45,8 +41,8 @@ define projects::project::apache (
 define projects::project::apache::vhost (
   $projectname = undef,
   $docroot = undef,
-  $port = undef,
-  $vhost_name = undef,
+  $port = i80,
+  $vhost_name = $title,
   $ssl = false
 ) {
 
@@ -55,6 +51,14 @@ define projects::project::apache::vhost (
     owner   => $projectname,
     group   => $projectname,
     require => File["$::projects::basedir/$projectname/etc/apache/conf.d"],
+  }
+
+  ::apache::vhost { $title:
+    port                => $port,
+    vhost_name          => $host_name,
+    ssl                 => $ssl,
+    docroot             => "$::projects::basedir/$projectname/var/www",
+    additional_includes => ["$::projects::basedir/$projectname/etc/apache/conf.d/","$::projects::basedir/$projectname/etc/apache/conf.d/$title/"]
   }
 
 }
