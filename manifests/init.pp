@@ -89,14 +89,15 @@ define project_user (
 #
 # Defines an apache project
 define projects::project::apache (
-  $vhosts = {}
+  $vhosts = {},
+  $apache_user = 'apache'
 ) {
 
   file { "$::projects::basedir/$title/var/www":
     ensure  => directory,
-    owner   => $title,
+    owner   => $apache_user,
     group   => $title,
-    mode    => 0770,
+    mode    => 0570,
     seltype => 'httpd_sys_content_t',
     require => File["$::projects::basedir/$title/var"],
   }
