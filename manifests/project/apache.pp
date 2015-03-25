@@ -32,6 +32,7 @@ define projects::project::apache (
 
   create_resources('::projects::project::apache::vhost', $vhosts, {
     'projectname' => $title,
+    'apache_user' => $apache_user
   })
 }
 
@@ -47,10 +48,10 @@ define projects::project::apache::vhost (
 ) {
 
   file { "$::projects::basedir/$projectname/etc/apache/conf.d/$title":
-    ensure  => directory,
-    owner   => $::projects::project::apache::apache_user,
-    group   => $projectname,
-    require => File["$::projects::basedir/$projectname/etc/apache/conf.d"],
+    ensure      => directory,
+    owner       => $apache_user,
+    group       => $projectname,
+    require     => File["$::projects::basedir/$projectname/etc/apache/conf.d"],
   }
 
   ::apache::vhost { $title:
