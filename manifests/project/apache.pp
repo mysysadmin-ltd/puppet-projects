@@ -44,7 +44,8 @@ define projects::project::apache::vhost (
   $docroot = undef,
   $port = i80,
   $vhost_name = $title,
-  $ssl = false
+  $ssl = false,
+  $apache_user = 'apache',
 ) {
 
   file { "$::projects::basedir/$projectname/etc/apache/conf.d/$title":
