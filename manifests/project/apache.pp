@@ -15,6 +15,15 @@ define projects::project::apache (
     require => File["$::projects::basedir/$title/var"],
   }
 
+  file { "$::projects::basedir/$title/var/log":
+    ensure  => directory,
+    owner   => $apache_user,
+    group   => $title,
+    mode    => 0750,
+    seltype => 'var_log_t',
+    require => File["$::projects::basedir/$title/var"],
+  }
+
   file { "$::projects::basedir/$title/etc/apache":
     ensure  => directory,
     owner   => $title,
@@ -62,6 +71,7 @@ define projects::project::apache::vhost (
     vhost_name          => $host_name,
     ssl                 => $ssl,
     docroot             => "$::projects::basedir/$projectname/var/www",
+    logroot             => "$::projects::basedir/$projectname/var/log",
     additional_includes => ["$::projects::basedir/$projectname/etc/apache/conf.d/","$::projects::basedir/$projectname/etc/apache/conf.d/$title/"]
   }
 
