@@ -3,6 +3,7 @@
 # A top level project type.
 define projects::project (
   $apache = {},
+  $tomcat = {},
   $uid = undef,
   $gid = undef,
   $users = [],
@@ -10,7 +11,8 @@ define projects::project (
 ) {
 
   # If least one project definition exists for this host, creaste the base structure
-  if ($apache != {}) {
+  if ($apache != {} or
+      $tomcat !={}) {
     user { $title:
       comment => $description,
       uid     => $uid,
@@ -52,6 +54,13 @@ define projects::project (
   if ($apache != {}) {
     projects::project::apache { $title:
       vhosts => $apache
+    }
+  }
+
+  # Create Tomcat services
+  if ($tomcat != {}) {
+    projects::project::tomcat{ $title:
+      ajp_port => $tomcat::ajp_port
     }
   }
 }
