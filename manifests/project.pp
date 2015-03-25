@@ -32,8 +32,18 @@ define projects::project (
            "$::projects::basedir/$title/etc",
            ] :
       ensure => directory,
-      owner  => $title,
+      owner  => root,
       group  => $title
+    }
+
+
+    file { "$::projects::basedir/$title/var/log":
+      ensure  => directory,
+      owner   => root,
+      group   => $title,
+      mode    => 0750,
+      seltype => 'var_log_t',
+      require => File["$::projects::basedir/$title/var"],
     }
 
   }
