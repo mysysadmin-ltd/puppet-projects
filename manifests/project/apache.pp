@@ -24,7 +24,7 @@ define projects::project::apache (
 
   file { "$::projects::basedir/$title/etc/apache/conf.d":
     ensure  => directory,
-    owner   => $title,
+    owner   => $apache_user,
     group   => $title,
     mode    => 0770,
     require => File["$::projects::basedir/$title/etc/apache"],
@@ -48,7 +48,7 @@ define projects::project::apache::vhost (
 
   file { "$::projects::basedir/$projectname/etc/apache/conf.d/$title":
     ensure  => directory,
-    owner   => $projectname,
+    owner   => $::projects::project::apache::apache_user,
     group   => $projectname,
     require => File["$::projects::basedir/$projectname/etc/apache/conf.d"],
   }
