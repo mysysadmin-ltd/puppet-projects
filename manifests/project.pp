@@ -31,6 +31,7 @@ define projects::project (
 
     file { [ "$::projects::basedir/$title",
            "$::projects::basedir/$title/var",
+           "$::projects::basedir/$title/lib",
            "$::projects::basedir/$title/etc",
            ] :
       ensure => directory,

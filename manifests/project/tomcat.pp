@@ -7,14 +7,14 @@ define projects::project::tomcat (
   $ajp_port = 8009,
 ) {
 
-  $catalina_home = "$::projects::basedir/$title/var/tomcat"
+  $catalina_home = "$::projects::basedir/$title/lib/tomcat"
 
   file { "$catalina_home":
     ensure  => directory,
     owner   => $::tomcat::user,
     group   => $title,
     mode    => 0770,
-    require => File["$::projects::basedir/$title/var"],
+    require => File["$::projects::basedir/$title/lib"],
   }
 
   tomcat::instance { "$title":
@@ -37,11 +37,33 @@ define projects::project::tomcat (
     protocol      => 'AJP/1.3',
   }
 
-  file { "$catalina_home/webapps":
+  file { "$::projects::basedir/$title/var/webapps":
     ensure  => directory,
     owner   => $::tomcat::user,
     group   => $title,
     mode    => 0770,
-    require => Tomcat::Instance["$title"],
+    require => File["$::projects::basedir/$title/var"],
   }
+
+  # We symlink this way around to forceably remove the default webapps that tomcat provides.
+  file { "$catalina_home/webapps":
+    ensure  => link,
+    target  => "$::projects::basedir/$title/var/webapps",
+    owner   => $::tomcat::user,
+    group   => $title,
+    mode    => 0770,
+    require => Tomcat::Instance["$title"],
+    force   => true,
+  }
+
+  file { "$::projects::basedir/$title/var/log/tomcat":
+    ensure  => link,
+    target  => "$caralina_home/logs",
+    owner   => $::tomcat::user,
+    group   => $title,
+    mode    => 0750,
+    require => File["$::projects::basedir/$title/var/log"],
+  }
+
+
 }
