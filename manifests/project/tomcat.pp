@@ -3,7 +3,6 @@
 # Defines an tomcat service
 define projects::project::tomcat (
   $port = 8005,
-  $http_port = 8008,
   $ajp_port = 8009,
 ) {
 
@@ -59,7 +58,7 @@ define projects::project::tomcat (
 
   file { "$::projects::basedir/$title/var/log/tomcat":
     ensure  => link,
-    target  => "$caralina_home/logs",
+    target  => "$catalina_home/logs",
     owner   => $::tomcat::user,
     group   => $title,
     mode    => 0750,
