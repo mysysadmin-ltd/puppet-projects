@@ -54,6 +54,7 @@ define projects::project::tomcat (
     mode    => 0770,
     require => Tomcat::Instance["$title"],
     force   => true,
+    backup  => false, # The java apps are just too big to filebucket
   }
 
   file { "$::projects::basedir/$title/var/log/tomcat":
