@@ -90,11 +90,12 @@ define projects::project::apache::vhost (
     additional_includes => ["$::projects::basedir/$projectname/etc/apache/conf.d/","$::projects::basedir/$projectname/etc/apache/conf.d/$title/"]
   }
 
-  if !defined(Firewall['050 accept Apache $port'])
-  firewall { '050 accept Apache $port':
-    port   => $port,
-    proto  => tcp,
-    action => accept,
+  if !defined(Firewall['050 accept Apache $port']) {
+    firewall { '050 accept Apache $port':
+      port   => $port,
+      proto  => tcp,
+      action => accept,
+    }
   }
 
 }
