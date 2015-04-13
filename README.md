@@ -1,6 +1,7 @@
-# projects
+# Puppet Projects
 
-#### Table of Contents
+#### Table of Con
+tents
 
 1. [Overview](#overview)
 2. [Module Description - What the module does and why it is useful](#module-description)
@@ -15,46 +16,95 @@
 
 ## Overview
 
-A one-maybe-two sentence summary of what the module does/what problem it solves.
-This is your 30 second elevator pitch for your module. Consider including
-OS/Puppet version it works with.
+This module provide a standard "Project Layout" for various applications (mainly web applications). It currently supports:
+
+* Apache
+* Tomcat
+
 
 ## Module Description
 
-If applicable, this section should have a brief description of the technology
-the module integrates with and what that integration enables. This section
-should answer the questions: "What does this module *do*?" and "Why would I use
-it?"
+A project is a standard structured area where non-privilidged users can
+configure and deploy pre-defined services.  The default base location for
+projects is `/srv/projects/<projectname>`, but can be changed using the
+`::projects::basedir` parameter.
 
-If your module has a range of functionality (installation, configuration,
-management, etc.) this is the time to mention it.
 
 ## Setup
 
+
+
 ### What projects affects
 
-* A list of files, packages, services, or operations that the module will alter,
-  impact, or execute on the system it's installed on.
-* This is a great place to stick any warnings.
-* Can be in list or paragraph form.
+* Files and directories under `::projects::basedir` (default `/srv/projects/`).
+* Apache vhosts.
+* Tomcat instances, services and AJP connectors.
+* A local "project user" is created for each project. Matching the project shortname and using the UID as specified in the `uid` key.
+* A local "project group" is created for each project.
 
-### Setup Requirements **OPTIONAL**
+### Setup Requirements
 
-If your module requires anything extra before setting up (pluginsync enabled,
-etc.), mention it here.
+Reading project data from hiera requires `merge_behaviour` to be set to `deeper` in hiera. This can be done by adding `:merge_behavior: deeper` to `/etc/puppet/hiera.yaml`.
 
 ### Beginning with projects
 
-The very basic steps needed for a user to get the module up and running.
+It's intended that projects are defined in hiera under the `projects` top-level hash. To start, include the module in your puppet manifests:
 
-If your most recent release breaks compatibility or requires particular steps
-for upgrading, you may wish to include an additional section here: Upgrading
-(For an example, see http://forge.puppetlabs.com/puppetlabs/firewall).
+```
+include projects
+```
+
+An example hiera hash is as follows:
+
+```yaml
+projects:
+  'myproject':
+    description: 'My Tomcat service'
+    uid: 6666
+    gid: 6666
+    users:
+      - alice
+      - bob
+    apache:
+      'site.example.com':
+        port: 80
+      'site.example.com-ssl':
+        vhost_name: 'site.example.com'
+        port: 443
+        ssl: true
+    tomcat:
+      ajp_port: 8009
+```
+
 
 ## Usage
 
-Put the classes, types, and resources for customizing, configuring, and doing
-the fancy stuff with your module here.
+Once the `projects` class is included. You can start by building up the hiera data structure. By using the `deeper` hiera merge, you can seperate common a per-instance data.
+
+The key for the hash entry is the project shortname.
+
+### Common Data
+
+The following hash keys under the project shortname are used for common data. It is advised that this it put in your common yaml file:
+
+* `decription`: A Line scribing the project
+* `uid`: The UID of the project user. 
+* `gid`: The GID of the project user.
+* `users`: An array of users that a members of the project.
+
+### Apache
+
+The `apache` key contains a hash for virtualhost to configure for the project. Each key in this hash is a virtualhost to configure (therefore you can have multiple virtualhosts). Each virtualhost key has the following configuration parameters.
+
+* `port`: The port for the virtualhost to listen on (default: 80).
+* `vhost_name`: The name for the Name-base Virtual Host to respond for (default: the vhost key).
+* `ssl`: Enable SSL? (default: no).
+
+### Tomcat
+
+The `tomcat` key declares that a tomcat instance should be installed for this project. It's value is a hash that can contain the following values:
+
+* `ajp_port`: 
 
 ## Reference
 

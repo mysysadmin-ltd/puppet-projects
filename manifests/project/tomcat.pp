@@ -6,6 +6,12 @@ define projects::project::tomcat (
   $ajp_port = 8009,
 ) {
 
+  if !defined(Class['::tomcat']) {
+    class { '::tomcat':
+      install_from_source => false,
+    }
+  }
+
   $catalina_home = "$::projects::basedir/$title/lib/tomcat"
 
   file { "$catalina_home":

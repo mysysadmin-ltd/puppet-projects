@@ -5,6 +5,16 @@ define projects::project::apache (
   $vhosts = {},
   $apache_user = 'apache'
 ) {
+  if !defined(Class['::apache']) {
+    include ::apache
+    include ::apache::mod::proxy
+    include ::apache::mod::proxy_http
+  }
+
+  # installing apache doesn't appear to pull in these deps. Problem with the RPM or the puppetlabs/apache module?
+  package { ['apr', 'apr-util']:
+    ensure => present
+  }
 
   file { "$::projects::basedir/$title/var/www":
     ensure  => directory,
@@ -57,7 +67,7 @@ define projects::project::apache (
 define projects::project::apache::vhost (
   $projectname = undef,
   $docroot = undef,
-  $port = i80,
+  $port = 80,
   $vhost_name = $title,
   $ssl = false,
   $apache_user = 'apache',
@@ -78,6 +88,13 @@ define projects::project::apache::vhost (
     docroot             => "$::projects::basedir/$projectname/var/www",
     logroot             => "$::projects::basedir/$projectname/var/log/httpd",
     additional_includes => ["$::projects::basedir/$projectname/etc/apache/conf.d/","$::projects::basedir/$projectname/etc/apache/conf.d/$title/"]
+  }
+
+  if !defined(Firewall['050 accept Apache $port'])
+  firewall { '050 accept Apache $port':
+    port   => $port,
+    proto  => tcp,
+    action => accept,
   }
 
 }
