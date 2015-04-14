@@ -6,6 +6,11 @@ define projects::project::tomcat (
   $ajp_port = 8009,
 ) {
 
+  if !defined(Class['::java']) {
+    class { '::java':
+    }
+  }
+
   if !defined(Class['::tomcat']) {
     class { '::tomcat':
       install_from_source => false,
