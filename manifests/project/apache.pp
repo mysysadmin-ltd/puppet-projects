@@ -55,6 +55,23 @@ define projects::project::apache (
     require => File["$::projects::basedir/$title/etc/apache"],
   }
 
+  file { "$::projects::basedir/$title/etc/ssl":
+    ensure  => directory,
+    owner   => $title,
+    group   => $title,
+    require => File["$::projects::basedir/$title/etc"],
+  }
+
+  file { [ "$::projects::basedir/$title/etc/ssl/private",
+           "$::projects::basedir/$title/etc/ssl/certs",
+           "$::projects::basedir/$title/etc/ssl/csrs",
+           "$::projects::basedir/$title/etc/ssl/conf"] :
+    ensure  => directory,
+    owner   => $title,
+    group   => $title,
+    require => File["$::projects::basedir/$title/etc/ssl"],
+  }
+
   create_resources('::projects::project::apache::vhost', $vhosts, {
     'projectname' => $title,
     'apache_user' => $apache_user
@@ -83,12 +100,22 @@ define projects::project::apache::vhost (
 
   ::apache::vhost { $title:
     port                => $port,
-    vhost_name          => $host_name,
+    vhost_name          => $vhost_name,
     ssl                 => $ssl,
     docroot             => "$::projects::basedir/$projectname/var/www",
     logroot             => "$::projects::basedir/$projectname/var/log/httpd",
     additional_includes => ["$::projects::basedir/$projectname/etc/apache/conf.d/","$::projects::basedir/$projectname/etc/apache/conf.d/$title/"]
+    ssl_cert            => "$::projects::basedir/$projectname/etc/ssl/certs/$vhost_name.crt"
+    ssl_key             => "$::projects::basedir/$projectname/etc/ssl/private/$vhost_name.key"
   }
+
+  file {'$::projects::basedir/$projectname/etc/ssl/conf/$vhost_name.cnf':
+    content => template('openssl/cert.cnf.erb')
+  }
+
+  ssl_pkey { '$::projects::basedir/$projectname/etc/ssl/private/$vhost_name.key' {
+  }
+
 
   if !defined(Firewall["050 accept Apache $port"]) {
     firewall { "050 accept Apache $port":
