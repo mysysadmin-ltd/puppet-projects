@@ -110,11 +110,13 @@ define projects::project::apache::vhost (
     ssl_key             => "$::projects::basedir/$projectname/etc/ssl/private/$vhost_name.key",
   }
 
-  file {'$::projects::basedir/$projectname/etc/ssl/conf/$vhost_name.cnf':
-    content => template('openssl/cert.cnf.erb')
-  }
+  if $ssl {
+    file {"$::projects::basedir/$projectname/etc/ssl/conf/$vhost_name.cnf":
+      content => template('openssl/cert.cnf.erb')
+    }
 
-  ssl_pkey { '$::projects::basedir/$projectname/etc/ssl/private/$vhost_name.key' :
+    ssl_pkey { "$::projects::basedir/$projectname/etc/ssl/private/$vhost_name.key" :
+    }
   }
 
 
