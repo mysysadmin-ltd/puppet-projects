@@ -88,6 +88,7 @@ define projects::project::apache::vhost (
   $vhost_name = $title,
   $ssl = false,
   $apache_user = 'apache',
+  $altnames = []
 ) {
 
   file { "$::projects::basedir/$projectname/etc/apache/conf.d/$title":
