@@ -104,9 +104,9 @@ define projects::project::apache::vhost (
     ssl                 => $ssl,
     docroot             => "$::projects::basedir/$projectname/var/www",
     logroot             => "$::projects::basedir/$projectname/var/log/httpd",
-    additional_includes => ["$::projects::basedir/$projectname/etc/apache/conf.d/","$::projects::basedir/$projectname/etc/apache/conf.d/$title/"]
-    ssl_cert            => "$::projects::basedir/$projectname/etc/ssl/certs/$vhost_name.crt"
-    ssl_key             => "$::projects::basedir/$projectname/etc/ssl/private/$vhost_name.key"
+    additional_includes => ["$::projects::basedir/$projectname/etc/apache/conf.d/","$::projects::basedir/$projectname/etc/apache/conf.d/$title/"],
+    ssl_cert            => "$::projects::basedir/$projectname/etc/ssl/certs/$vhost_name.crt",
+    ssl_key             => "$::projects::basedir/$projectname/etc/ssl/private/$vhost_name.key",
   }
 
   file {'$::projects::basedir/$projectname/etc/ssl/conf/$vhost_name.cnf':
