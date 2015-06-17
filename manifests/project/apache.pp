@@ -10,6 +10,7 @@ define projects::project::apache (
       default_vhost => false
     }
     include ::apache::mod::proxy
+    include ::apache::mod::alias
     include ::apache::mod::proxy_http
   }
 
