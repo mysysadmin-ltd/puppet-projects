@@ -12,12 +12,12 @@ define projects::project::apache (
     include ::apache::mod::proxy
     include ::apache::mod::alias
     include ::apache::mod::proxy_http
+    # installing apache doesn't appear to pull in these deps. Problem with the RPM or the puppetlabs/apache module?
+    package { ['apr', 'apr-util']:
+      ensure => present
+    }
   }
 
-  # installing apache doesn't appear to pull in these deps. Problem with the RPM or the puppetlabs/apache module?
-  package { ['apr', 'apr-util']:
-    ensure => present
-  }
 
   file { "$::projects::basedir/$title/var/www":
     ensure  => directory,
