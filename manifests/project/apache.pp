@@ -6,7 +6,9 @@ define projects::project::apache (
   $apache_user = 'apache'
 ) {
   if !defined(Class['::apache']) {
-    include ::apache
+    class { '::apache':
+      default_vhost => false
+    }
     include ::apache::mod::proxy
     include ::apache::mod::proxy_http
   }
@@ -101,7 +103,6 @@ define projects::project::apache::vhost (
 
   ::apache::vhost { $title:
     port                => $port,
-    priority            => '05',
     vhost_name          => $vhost_name,
     ssl                 => $ssl,
     docroot             => "$::projects::basedir/$projectname/var/www",
