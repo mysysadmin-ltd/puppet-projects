@@ -101,6 +101,7 @@ define projects::project::apache::vhost (
 
   ::apache::vhost { $title:
     port                => $port,
+    priority            => '05',
     vhost_name          => $vhost_name,
     ssl                 => $ssl,
     docroot             => "$::projects::basedir/$projectname/var/www",
