@@ -103,7 +103,6 @@ define projects::project::apache::vhost (
 
   ::apache::vhost { $title:
     port                => $port,
-    vhost_name          => $vhost_name,
     ssl                 => $ssl,
     docroot             => "$::projects::basedir/$projectname/var/www",
     logroot             => "$::projects::basedir/$projectname/var/log/httpd",
