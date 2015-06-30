@@ -64,6 +64,14 @@ define projects::project (
       ajp_port => $tomcat::ajp_port
     }
   }
+
+  # Create php services
+  if ($php != {}) {
+    if !defined(Class['::projects::project::php']) {
+      class{'::projects::project::php':
+      }
+    }
+  }
 }
 
 define project_user (
