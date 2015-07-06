@@ -123,7 +123,9 @@ define projects::project::apache::vhost (
   }
 
   if $php == true {
-    class {'::apache::mod::php':
+    if !defined(Class['::apache::mod:php']) {
+      class {'::apache::mod::php':
+      }
     }
   }
 
