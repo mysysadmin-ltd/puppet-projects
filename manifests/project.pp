@@ -4,6 +4,7 @@
 define projects::project (
   $apache = {},
   $tomcat = {},
+  $mysql = {},
   $uid = undef,
   $gid = undef,
   $users = [],
@@ -60,8 +61,18 @@ define projects::project (
 
   # Create Tomcat services
   if ($tomcat != {}) {
-    projects::project::tomcat{ $title:
+    projects::project::tomcat { $title:
       ajp_port => $tomcat::ajp_port
+    }
+  }
+
+  # Create MySQL server
+  if ($mysql != {}) {
+    projects::project::mysql { $title:
+      user     => $title,
+      password => $mysql::password,
+      host     => $mysql::host,
+      grant    => $mysql::grant
     }
   }
 }
