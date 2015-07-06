@@ -90,6 +90,7 @@ define projects::project::apache::vhost (
   $port = 80,
   $vhost_name = $title,
   $ssl = false,
+  $php = false,
   $apache_user = 'apache',
   $altnames = []
 ) {
@@ -121,6 +122,10 @@ define projects::project::apache::vhost (
     }
   }
 
+  if $php == true {
+    class {'::apache::mod::php':
+    }
+  }
 
   if !defined(Firewall["050 accept Apache $port"]) {
     firewall { "050 accept Apache $port":
