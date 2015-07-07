@@ -29,7 +29,7 @@ define projects::project::tomcat (
 
   tomcat::instance { "$title":
     install_from_source => true,
-    source_url          => 'http://mirror.vorboss.net/apache/tomcat/tomcat-8/v8.0.20/bin/apache-tomcat-8.0.20.tar.gz',
+    source_url          => hiera('projects::tomcat::source_url','http://mirror.vorboss.net/apache/tomcat/tomcat-8/v8.0.20/bin/apache-tomcat-8.0.20.tar.gz'),
     catalina_home       => $catalina_home,
     catalina_base       => $catalina_home,
   }->
