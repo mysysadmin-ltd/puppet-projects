@@ -103,13 +103,14 @@ define projects::project::apache::vhost (
 
   concat::fragment { "${projectname} apache ${title} vhost":
     target  => "${::projects::basedir}/${projectname}/README",
-    content => "Apache Virtualhost: ${vhost_name}\n
-  docroot: ${docroot}\n
-  port: ${port}\n
-  SSL: ${ssl}\n
-  PHP support: ${php}\n
-  hostname: ${vhost_name}\n
+    content => "Apache Virtualhost: ${vhost_name}
+  hostname: ${vhost_name}
+  port: ${port}
+  docroot: ${docroot}
+  SSL: ${ssl}
+  PHP support: ${php}
   altnames: ${altnames}\n"
+    order   => '10'
   }
 
   file { "${::projects::basedir}/${projectname}/etc/apache/conf.d/${title}":

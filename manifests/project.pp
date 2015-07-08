@@ -59,7 +59,8 @@ define projects::project (
     concat::fragment { "${title} header":
       target  => "${::projects::basedir}/${title}/README",
       content => "Project: ${title}\n
-Members: ${users}\n\n"
+Members: ${users}\n"
+      order   => '01'
     }
 
   }
