@@ -6,6 +6,13 @@ define projects::project::tomcat (
   $ajp_port = 8009,
 ) {
 
+  concat::fragment { "${title} tomcat":
+    target  => "${::projects::basedir}/${title}/README",
+    content => "Tomcat:
+  AJP port: ${ajp_port}\n",
+    order   => '10'
+  }
+
   if !defined(Class['::java']) {
     class { '::java':
     }

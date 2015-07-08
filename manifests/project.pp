@@ -13,6 +13,7 @@ define projects::project (
 
   # If least one project definition exists for this host, creaste the base structure
   if ($apache != {} or
+      $mysql != {} or
       $tomcat !={}) {
     user { $title:
       comment => $description,
@@ -52,14 +53,13 @@ define projects::project (
 
     concat { "${::projects::basedir}/${title}/README":
       owner => 'root',
-      group => 'root',
-      mode  => '0644',
+      group => $title,
+      mode  => '0640',
     }
 
     concat::fragment { "${title} header":
       target  => "${::projects::basedir}/${title}/README",
-      content => "Project: ${title}\n
-Members: ${users}\n",
+      content => "Project: ${title}\n\n",
       order   => '01'
     }
 
@@ -75,7 +75,7 @@ Members: ${users}\n",
   # Create Tomcat services
   if ($tomcat != {}) {
     projects::project::tomcat { $title:
-      ajp_port => pick($tomcat[ajp_port],'8009')
+      ajp_port      => pick($tomcat[ajp_port],'8009')
     }
   }
 

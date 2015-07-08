@@ -106,7 +106,6 @@ define projects::project::apache::vhost (
     content => "Apache Virtualhost: ${vhost_name}
   hostname: ${vhost_name}
   port: ${port}
-  docroot: ${docroot}
   SSL: ${ssl}
   PHP support: ${php}
   altnames: ${altnames}\n",
