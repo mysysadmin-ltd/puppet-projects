@@ -12,6 +12,7 @@ define projects::project::apache (
     include ::apache::mod::proxy
     include ::apache::mod::alias
     include ::apache::mod::proxy_http
+    include ::apache::mod::proxy_ajp
     # installing apache doesn't appear to pull in these deps.
     # Problem with the RPM or the puppetlabs/apache module?
     package { ['apr', 'apr-util']:
