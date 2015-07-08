@@ -62,7 +62,7 @@ define projects::project (
   # Create Tomcat services
   if ($tomcat != {}) {
     projects::project::tomcat { $title:
-      ajp_port => $tomcat::ajp_port
+      ajp_port => pick($tomcat[ajp_port],'8009')
     }
   }
 

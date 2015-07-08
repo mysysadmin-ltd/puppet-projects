@@ -26,6 +26,7 @@ define projects::project::tomcat (
     mode    => 0770,
     require => File["$::projects::basedir/$title/lib"],
   }
+  
 
   tomcat::instance { "$title":
     install_from_source => true,

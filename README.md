@@ -1,7 +1,6 @@
 # Puppet Projects
 
-#### Table of Con
-tents
+#### Table of Contents
 
 1. [Overview](#overview)
 2. [Module Description - What the module does and why it is useful](#module-description)
@@ -20,6 +19,7 @@ This module provide a standard "Project Layout" for various applications (mainly
 
 * Apache
 * Tomcat
+* MySQL
 
 
 ## Module Description
