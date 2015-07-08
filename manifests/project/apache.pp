@@ -101,6 +101,18 @@ define projects::project::apache::vhost (
   $altnames = []
 ) {
 
+  concat::fragment { "${title} apache ${vhost_name} vhost":
+    target  => "${::projects::basedir}/${title}/README",
+    content => "Apache Virtualhost: ${vhost_name}\n
+  docroot: ${docroot}\n
+  port: ${port}\n
+  SSL: ${ssl}\n
+  PHP support: ${php}\n
+  docroot: ${docroot}\n
+  hostname: ${title}\n
+  altnames: ${altnames}\n"
+  }
+
   file { "${::projects::basedir}/${projectname}/etc/apache/conf.d/${title}":
     ensure  => directory,
     owner   => $apache_user,

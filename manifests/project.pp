@@ -50,6 +50,18 @@ define projects::project (
       require => File["$::projects::basedir/$title/var"],
     }
 
+    concat { "${::projects::basedir}/${title}/README":
+      owner => 'root',
+      group => 'root',
+      mode  => '0644',
+    }
+
+    concat::fragment { "${title} header":
+      target  => "${::projects::basedir}/${title}/README",
+      content => "Project: ${title}\n
+Members: ${users}\n\n"
+    }
+
   }
 
   # Create apache vhosts
