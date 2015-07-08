@@ -109,7 +109,7 @@ define projects::project::apache::vhost (
   docroot: ${docroot}
   SSL: ${ssl}
   PHP support: ${php}
-  altnames: ${altnames}\n"
+  altnames: ${altnames}\n",
     order   => '10'
   }
 
