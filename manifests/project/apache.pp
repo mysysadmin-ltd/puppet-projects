@@ -101,15 +101,14 @@ define projects::project::apache::vhost (
   $altnames = []
 ) {
 
-  concat::fragment { "${projectname} apache ${vhost_name} vhost":
+  concat::fragment { "${projectname} apache ${title} vhost":
     target  => "${::projects::basedir}/${projectname}/README",
     content => "Apache Virtualhost: ${vhost_name}\n
   docroot: ${docroot}\n
   port: ${port}\n
   SSL: ${ssl}\n
   PHP support: ${php}\n
-  docroot: ${docroot}\n
-  hostname: ${title}\n
+  hostname: ${vhost_name}\n
   altnames: ${altnames}\n"
   }
 
