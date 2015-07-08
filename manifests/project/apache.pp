@@ -77,6 +77,10 @@ define projects::project::apache (
     require => File["${::projects::basedir}/${title}/etc/ssl"],
   }
 
+  sudo::conf { "${title}-apache":
+    content => "%${title} ALL= (ALL) /sbin/apachectl"
+  }
+
   create_resources('::projects::project::apache::vhost', $vhosts, {
     'projectname' => $title,
     'apache_user' => $apache_user
