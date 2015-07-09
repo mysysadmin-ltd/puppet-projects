@@ -7,7 +7,7 @@ define projects::project::apache (
 ) {
   if !defined(Class['::apache']) {
     class { '::apache':
-      default_vhost => false
+      default_vhost => true 
     }
     include ::apache::mod::proxy
     include ::apache::mod::alias
