@@ -153,11 +153,14 @@ define projects::project::apache::vhost (
       $email = hiera('projects::ssl::email',nil)
     }
     file {"${::projects::basedir}/${projectname}/etc/ssl/conf/${vhost_name}.cnf":
-      content => template('openssl/cert.cnf.erb')
+      content => template('openssl/cert.cnf.erb'),
+      require  => File["${::projects::basedir}/${projectname}/etc/ssl/conf"],
+
     }
 
     ssl_pkey { "${::projects::basedir}/${projectname}/etc/ssl/private/${vhost_name}.auto.key" :
-      ensure => present
+      ensure   => present,
+      require  => File["${::projects::basedir}/${projectname}/etc/ssl/private"],
     }
 
     x509_request { "${::projects::basedir}/${projectname}/etc/ssl/csrs/${vhost_name}.auto.csr" :
