@@ -59,7 +59,7 @@ define projects::project::tomcat (
     ensure  => directory,
     owner   => $::tomcat::user,
     group   => $title,
-    mode    => 0770,
+    mode    => 2770,
     require => File["$::projects::basedir/$title/var"],
   }
 

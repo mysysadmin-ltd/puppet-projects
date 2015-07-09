@@ -55,7 +55,7 @@ define projects::project::apache (
     ensure  => directory,
     owner   => $apache_user,
     group   => $title,
-    mode    => '0770',
+    mode    => '2770',
     seltype => 'httpd_config_t',
     require => File["${::projects::basedir}/${title}/etc/apache"],
   }
@@ -116,6 +116,7 @@ define projects::project::apache::vhost (
     ensure  => directory,
     owner   => $apache_user,
     group   => $projectname,
+    mode     => '2775',
     seltype => 'httpd_config_t',
     require => File["${::projects::basedir}/${projectname}/etc/apache/conf.d"],
   }
