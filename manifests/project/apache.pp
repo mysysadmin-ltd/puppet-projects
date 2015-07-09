@@ -133,6 +133,7 @@ define projects::project::apache::vhost (
       "${::projects::basedir}/${projectname}/etc/ssl/certs/${vhost_name}.crt",
     ssl_key             =>
       "${::projects::basedir}/${projectname}/etc/ssl/private/${vhost_name}.key",
+    serveraliases       => $altnames,
   }
 
   if $ssl == true {

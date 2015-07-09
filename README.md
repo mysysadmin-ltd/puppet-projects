@@ -97,6 +97,7 @@ The `apache` key contains a hash for virtualhost to configure for the project. E
 * `vhost_name`: The name for the Name-base Virtual Host to respond for (default: the vhost key).
 * `ssl`: Enable SSL? (default: no).
 * `php`: Enable `mod_php`? (default: no).
+* `altnames`: List of serveraliases to respond to (default: []).
 
 
 ### Tomcat
