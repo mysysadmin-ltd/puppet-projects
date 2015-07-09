@@ -101,5 +101,9 @@ define projects::project::tomcat (
     require => File["$::projects::basedir/$title/var/log"],
   }
 
+  sudo::conf { "${title}-tomcat":
+    content => "%${title} ALL= (tomcat) ${::projects::basedir}/${title}/lib/tomcat/startup.sh, ${::projects::basedir}/$title/lib/tomcat/shutdown.sh"
+  }
+
 
 }

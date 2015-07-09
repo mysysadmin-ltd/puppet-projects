@@ -21,6 +21,8 @@ If your project has a tomcat component, it will have deployed a tomcat instance.
 
 `etc/tomcat-env` is symlinked to the tomcats `setenv.sh`, use this to set any environment variables you require.
 
+It is possible to start and stop the tomcat instance via sudo as the tomcat user. e.g.: `sudo -u tomcat lib/tomcat/bin/shutdown.sh`. Note that tomcat will start up the tomcat instance on its next run.
+
 # MySQL
 
 If your project has a MySQL component, a database and user will have been created.
