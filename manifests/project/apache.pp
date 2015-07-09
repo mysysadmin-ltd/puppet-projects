@@ -162,6 +162,7 @@ define projects::project::apache::vhost (
       ensure      => present,
       template    => "${::projects::basedir}/${projectname}/etc/ssl/conf/${vhost_name}.cnf",
       private_key => "${::projects::basedir}/${projectname}/etc/ssl/private/${vhost_name}.auto.key",
+      require => [Ssl_pkey["${::projects::basedir}/${projectname}/etc/ssl/private/${vhost_name}.auto.key"],File["${::projects::basedir}/${projectname}/etc/ssl/conf/${vhost_name}.cnf"]],
     }
 
     x509_cert { "${::projects::basedir}/${projectname}/etc/ssl/certs/${vhost_name}.auto.crt":
@@ -169,6 +170,7 @@ define projects::project::apache::vhost (
       template    => "${::projects::basedir}/${projectname}/etc/ssl/conf/${vhost_name}.cnf",
       private_key => "${::projects::basedir}/${projectname}/etc/ssl/private/${vhost_name}.auto.key",
       days        => 4536,
+      require => [Ssl_pkey["${::projects::basedir}/${projectname}/etc/ssl/private/${vhost_name}.auto.key"],File["${::projects::basedir}/${projectname}/etc/ssl/conf/${vhost_name}.cnf"]],
     }
 
     exec { "deploy ${vhost_name}.key" :
