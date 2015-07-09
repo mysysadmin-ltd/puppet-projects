@@ -75,6 +75,23 @@ define projects::project::tomcat (
     backup  => false, # The java apps are just too big to filebucket
   }
 
+  file { "$catalina_home/bin/setenv.sh":
+    ensure  => link,
+    target  => "$::projects::basedir/$title/etc/tomcat-env",
+    owner   => $tomcat::user,
+    group   => $title,
+    mode    => 0760,
+    require => [Tomcat::Instance["$title"], File["${::projects::basedir}/${title}/etc/tomcat-env"]],
+    force   => true,
+  }
+
+  file { "${::projects::basedir}/${title}/etc/tomcat-env":
+    replace => 'no',
+    owner   => $tomcat::user,
+    group   => $title,
+    mode    => 0760,
+  }
+
   file { "$::projects::basedir/$title/var/log/tomcat":
     ensure  => link,
     target  => "$catalina_home/logs",

@@ -19,6 +19,8 @@ Apache logs are written to `var/log/httpd/`
 
 If your project has a tomcat component, it will have deployed a tomcat instance. Webapps can be deployed under `var/webapps`.
 
+`etc/tomcat-env` is symlinked to the tomcats `setenv.sh`, use this to set any environment variables you require.
+
 # MySQL
 
 If your project has a MySQL component, a database and user will have been created.
