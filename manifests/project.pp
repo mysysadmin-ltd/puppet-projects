@@ -38,7 +38,8 @@ define projects::project (
            ] :
       ensure => directory,
       owner  => root,
-      group  => $title
+      group  => $title,
+      mode   => '0775'
     }
 
 
