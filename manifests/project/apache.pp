@@ -13,6 +13,7 @@ define projects::project::apache (
     include ::apache::mod::alias
     include ::apache::mod::proxy_http
     include ::apache::mod::proxy_ajp
+    include ::apache::mod::authnz_ldap
 
 
     # installing apache doesn't appear to pull in these deps.
