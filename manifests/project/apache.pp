@@ -13,9 +13,10 @@ define projects::project::apache (
     include ::apache::mod::alias
     include ::apache::mod::proxy_http
     include ::apache::mod::proxy_ajp
-    include ::apache::mod::authnz_ldap
+    class {'::apache::mod::authnz_ldap':
+      verifyServerCert => false
+    }
 
-    ensure_resource('apache::custom_config', 'ldap-no-verify', {'content' =>  'LDAPVerifyServerCert on'})
     if defined(Class['::selinux']) {
       ensure_resource('selinux::boolean', 'httpd_can_connect_ldap', {'ensure' =>  'on'})
     }
