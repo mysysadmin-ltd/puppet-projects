@@ -26,7 +26,7 @@ define projects::project::apache (
   $php = hiera('projects::apache_common::php',false)
   if $php == true {
     ensure_resource('class', '::apache::mod::php', {})
-    ensure_packages(['php-pdo', 'php-mysql'])
+    ensure_packages(['php-pdo', 'php-mysql', 'php-mbstring', 'php-snmp'])
   }
 
 
