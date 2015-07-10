@@ -5,6 +5,7 @@ define projects::project (
   $apache = {},
   $tomcat = {},
   $mysql = {},
+  $apache_common = {},
   $uid = undef,
   $gid = undef,
   $users = [],

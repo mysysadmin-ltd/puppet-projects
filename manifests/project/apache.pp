@@ -13,11 +13,19 @@ define projects::project::apache (
     include ::apache::mod::alias
     include ::apache::mod::proxy_http
     include ::apache::mod::proxy_ajp
+
+
     # installing apache doesn't appear to pull in these deps.
     # Problem with the RPM or the puppetlabs/apache module?
     package { ['apr', 'apr-util']:
       ensure => present
     }
+  }
+
+
+  $php = hiera('projects::apache_common::php',false)
+  if $php == true {
+    ensure_resource('class', '::apache::mod::php', {})
   }
 
 
@@ -203,9 +211,6 @@ define projects::project::apache::vhost (
     }
   }
 
-  if $php == true {
-    ensure_resource('class', '::apache::mod::php', {})
-  }
 
   if !defined(Firewall["050 accept Apache ${port}"]) {
     firewall { "050 accept Apache ${port}":

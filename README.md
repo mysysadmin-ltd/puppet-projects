@@ -58,6 +58,8 @@ projects:
     description: 'My Tomcat service'
     uid: 6666
     gid: 6666
+    common_apache:
+      php: true
     users:
       - alice
       - bob
@@ -89,6 +91,10 @@ The following hash keys under the project shortname are used for common data. It
 * `gid`: The GID of the project user.
 * `users`: An array of users that a members of the project.
 
+#### `common_apache`
+
+* `php`: Enable `mod_php`? (default: no).
+
 ### Apache
 
 The `apache` key contains a hash for virtualhost to configure for the project. Each key in this hash is a virtualhost to configure (therefore you can have multiple virtualhosts). Each virtualhost key has the following configuration parameters.
@@ -96,7 +102,6 @@ The `apache` key contains a hash for virtualhost to configure for the project. E
 * `port`: The port for the virtualhost to listen on (default: 80).
 * `vhost_name`: The name for the Name-base Virtual Host to respond for (default: the vhost key).
 * `ssl`: Enable SSL? (default: no).
-* `php`: Enable `mod_php`? (default: no).
 * `altnames`: List of serveraliases to respond to (default: []).
 
 
