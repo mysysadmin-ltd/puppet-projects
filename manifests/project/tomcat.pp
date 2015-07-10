@@ -102,7 +102,7 @@ define projects::project::tomcat (
   }
 
   sudo::conf { "${title}-tomcat":
-    content => "%${title} ALL= (tomcat) ${::projects::basedir}/${title}/lib/tomcat/startup.sh, ${::projects::basedir}/$title/lib/tomcat/shutdown.sh"
+    content => "%${title} ALL= (tomcat) ${::projects::basedir}/${title}/lib/tomcat/bin/startup.sh, ${::projects::basedir}/$title/lib/tomcat/bin/shutdown.sh"
   }
 
 
