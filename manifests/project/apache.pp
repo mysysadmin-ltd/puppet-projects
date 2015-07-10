@@ -204,10 +204,7 @@ define projects::project::apache::vhost (
   }
 
   if $php == true {
-    if !defined(Class['::apache::mod:php']) {
-      class {'::apache::mod::php':
-      }
-    }
+    ensure_resource('class', '::apache::mod::php', {})
   }
 
   if !defined(Firewall["050 accept Apache ${port}"]) {
