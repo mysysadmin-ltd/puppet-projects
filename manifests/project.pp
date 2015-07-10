@@ -85,9 +85,9 @@ define projects::project (
   if ($mysql != {}) {
     projects::project::mysql { $title:
       user     => $title,
-      password => $mysql::password,
-      host     => $mysql::host,
-      grant    => $mysql::grant
+      password => pick($mysql[password],'changeme'),
+      host     => pick($mysql[host],'localhost'),
+      grant    => pick($mysql[grant],['ALL']),
     }
   }
 }
