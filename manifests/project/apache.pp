@@ -14,7 +14,10 @@ define projects::project::apache (
     include ::apache::mod::proxy_http
     include ::apache::mod::proxy_ajp
     include ::apache::mod::authnz_ldap
-    include ::apache::mod::auth_kerb
+
+    if defined(Class['::selinux']) {
+      ensure_resource('selinux::boolean', 'httpd_can_connect_ldap', {'ensure' =>  'on'})
+    }
 
 
     # installing apache doesn't appear to pull in these deps.
