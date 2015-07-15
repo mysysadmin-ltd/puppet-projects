@@ -30,7 +30,7 @@ define projects::project::tomcat (
     ensure  => directory,
     owner   => $::tomcat::user,
     group   => $title,
-    mode    => 0770,
+    mode    => '0770',
     require => File["$::projects::basedir/$title/lib"],
   }
   
@@ -59,7 +59,7 @@ define projects::project::tomcat (
     ensure  => directory,
     owner   => $::tomcat::user,
     group   => $title,
-    mode    => 2770,
+    mode    => '2770',
     require => File["$::projects::basedir/$title/var"],
   }
 
@@ -69,7 +69,7 @@ define projects::project::tomcat (
     target  => "$::projects::basedir/$title/var/webapps",
     owner   => $::tomcat::user,
     group   => $title,
-    mode    => 0770,
+    mode    => '0770',
     require => Tomcat::Instance["$title"],
     force   => true,
     backup  => false, # The java apps are just too big to filebucket
@@ -80,7 +80,7 @@ define projects::project::tomcat (
     target  => "$::projects::basedir/$title/etc/tomcat-env",
     owner   => $tomcat::user,
     group   => $title,
-    mode    => 0760,
+    mode    => '0760',
     require => [Tomcat::Instance["$title"], File["${::projects::basedir}/${title}/etc/tomcat-env"]],
     force   => true,
   }
@@ -89,7 +89,7 @@ define projects::project::tomcat (
     replace => 'no',
     owner   => $tomcat::user,
     group   => $title,
-    mode    => 0760,
+    mode    => '0760',
   }
 
   file { "$::projects::basedir/$title/var/log/tomcat":
@@ -97,7 +97,7 @@ define projects::project::tomcat (
     target  => "$catalina_home/logs",
     owner   => $::tomcat::user,
     group   => $title,
-    mode    => 0750,
+    mode    => '0750',
     require => File["$::projects::basedir/$title/var/log"],
   }
 
