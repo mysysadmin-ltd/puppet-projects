@@ -20,6 +20,7 @@ define projects::project::mysql (
 
   if !defined(Class['::mysql::server']) {
     class { '::mysql::server':
+      $root_password = hiera('projects::mysql::root_password','')
     }
   }
 
