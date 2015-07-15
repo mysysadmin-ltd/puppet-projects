@@ -24,9 +24,9 @@ define projects::project::mysql (
     }
 
     class { '::mysql::server::backups':
-      backupuser     => 'backup'
-      backuppassword => hiera('projects::mysql::backup_password','')
-      backupdir      => '/var/backups/mysql/'
+      backupuser     => 'backup',
+      backuppassword => hiera('projects::mysql::backup_password',''),
+      backupdir      => '/var/backups/mysql/',
     }
   }
 
