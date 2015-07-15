@@ -23,7 +23,7 @@ define projects::project::mysql (
       root_password => hiera('projects::mysql::root_password','')
     }
 
-    file { '/var/backups/mysql':
+    file { '/var/backups':
       ensure  => directory,
       recurse => true,
     }
@@ -32,7 +32,7 @@ define projects::project::mysql (
       backupuser     => 'backup',
       backuppassword => hiera('projects::mysql::backup_password',''),
       backupdir      => '/var/backups/mysql/',
-      require => File['/var/backups/mysql'],
+      require => File['/var/backups'],
     }
   }
 
