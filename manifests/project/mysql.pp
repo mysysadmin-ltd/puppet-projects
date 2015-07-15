@@ -23,6 +23,11 @@ define projects::project::mysql (
       root_password => hiera('projects::mysql::root_password','')
     }
 
+    file { '/var/backups/mysql':
+      ensure => directory,
+      recurse => true,
+    }
+
     class { '::mysql::server::backup':
       backupuser     => 'backup',
       backuppassword => hiera('projects::mysql::backup_password',''),
