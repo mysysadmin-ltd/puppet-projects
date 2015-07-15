@@ -48,7 +48,7 @@ define projects::project (
       ensure  => directory,
       owner   => root,
       group   => $title,
-      mode    => 0750,
+      mode    => '0750',
       seltype => 'var_log_t',
       require => File["$::projects::basedir/$title/var"],
     }
@@ -70,7 +70,8 @@ define projects::project (
   # Create apache vhosts
   if ($apache != {}) {
     projects::project::apache { $title:
-      vhosts => $apache
+      vhosts        => $apache,
+      apache_common => $apache_common,
     }
   }
 
