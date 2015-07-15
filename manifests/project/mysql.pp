@@ -22,6 +22,12 @@ define projects::project::mysql (
     class { '::mysql::server':
       root_password => hiera('projects::mysql::root_password','')
     }
+
+    class { '::mysql::server::backups':
+      backupuser     => 'backup'
+      backuppassword => hiera('projects::mysql::backup_password','')
+      backupdir      => '/var/backups/mysql/'
+    }
   }
 
   mysql::db { "$title":
