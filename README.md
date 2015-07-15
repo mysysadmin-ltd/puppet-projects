@@ -58,7 +58,7 @@ projects:
     description: 'My Tomcat service'
     uid: 6666
     gid: 6666
-    common_apache:
+    apache_common:
       php: true
     users:
       - alice

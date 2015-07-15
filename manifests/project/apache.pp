@@ -2,8 +2,9 @@
 #
 # Defines an apache project
 define projects::project::apache (
-  $vhosts = {},
-  $apache_user = 'apache'
+  $vhosts        = {},
+  $apache_user   = 'apache',
+  $apache_common = {},
 ) {
   if !defined(Class['::apache']) {
     class { '::apache':
@@ -30,8 +31,7 @@ define projects::project::apache (
   }
 
 
-  $php = hiera('projects::apache_common::php',false)
-  if $php == true {
+  if $apache_common['php'] {
     ensure_resource('class', '::apache::mod::php', {})
     ensure_packages(['php-pdo', 'php-mysql', 'php-mbstring', 'php-snmp'])
   }
