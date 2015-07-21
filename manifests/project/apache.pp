@@ -149,7 +149,13 @@ define projects::project::apache::vhost (
       "${::projects::basedir}/${projectname}/etc/ssl/certs/${vhost_name}.crt",
     ssl_key             =>
       "${::projects::basedir}/${projectname}/etc/ssl/private/${vhost_name}.key",
-    serveraliases       => $altnames,
+    serveraliases      => $altnames,
+    access_log_env_var => "!forwarded",
+    custom_fragment    => "LogFormat \"%{X-Forwarded-For}i %l %u %t \\\"%r\\\" %s %b \\\"%{Referer}i\\\" \\\"%{User-Agent}i\\\"\" proxy
+SetEnvIf X-Forwarded-For \"^.*\..*\..*\..*\" forwarded
+CustomLog \"${::projects::basedir}/${projectname}/var/log/httpd/${title}_access.log\" proxy env=forwarded"
+
+
   }
 
   if $ssl == true {
