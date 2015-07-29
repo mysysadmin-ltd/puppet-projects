@@ -8,7 +8,8 @@ define projects::project::apache (
 ) {
   if !defined(Class['::apache']) {
     class { '::apache':
-      default_vhost => true 
+      default_vhost         => true,
+      use_optional_includes => true
     }
     include ::apache::mod::proxy
     include ::apache::mod::alias
@@ -138,21 +139,20 @@ define projects::project::apache::vhost (
   }
 
   ::apache::vhost { $title:
-    port                  => $port,
-    ssl                   => $ssl,
-    docroot               => "${::projects::basedir}/${projectname}/var/www",
-    logroot               => "${::projects::basedir}/${projectname}/var/log/httpd",
-    use_optional_includes => true,
-    additional_includes   =>
+    port                => $port,
+    ssl                 => $ssl,
+    docroot             => "${::projects::basedir}/${projectname}/var/www",
+    logroot             => "${::projects::basedir}/${projectname}/var/log/httpd",
+    additional_includes =>
       ["${::projects::basedir}/${projectname}/etc/apache/conf.d/*.conf",
       "${::projects::basedir}/${projectname}/etc/apache/conf.d/${title}/*.conf"],
-    ssl_cert              =>
+    ssl_cert            =>
       "${::projects::basedir}/${projectname}/etc/ssl/certs/${vhost_name}.crt",
-    ssl_key               =>
+    ssl_key             =>
       "${::projects::basedir}/${projectname}/etc/ssl/private/${vhost_name}.key",
-    serveraliases         => $altnames,
-    access_log_env_var    => "!forwarded",
-    custom_fragment       => "LogFormat \"%{X-Forwarded-For}i %l %u %t \\\"%r\\\" %s %b \\\"%{Referer}i\\\" \\\"%{User-Agent}i\\\"\" proxy
+    serveraliases       => $altnames,
+    access_log_env_var  => "!forwarded",
+    custom_fragment     => "LogFormat \"%{X-Forwarded-For}i %l %u %t \\\"%r\\\" %s %b \\\"%{Referer}i\\\" \\\"%{User-Agent}i\\\"\" proxy
 SetEnvIf X-Forwarded-For \"^.*\..*\..*\..*\" forwarded
 CustomLog \"${::projects::basedir}/${projectname}/var/log/httpd/${title}_access.log\" proxy env=forwarded"
 
