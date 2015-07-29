@@ -143,8 +143,8 @@ define projects::project::apache::vhost (
     docroot             => "${::projects::basedir}/${projectname}/var/www",
     logroot             => "${::projects::basedir}/${projectname}/var/log/httpd",
     additional_includes =>
-      ["${::projects::basedir}/${projectname}/etc/apache/conf.d/",
-      "${::projects::basedir}/${projectname}/etc/apache/conf.d/${title}/"],
+      ["${::projects::basedir}/${projectname}/etc/apache/conf.d/*.conf",
+      "${::projects::basedir}/${projectname}/etc/apache/conf.d/${title}/*.conf"],
     ssl_cert            =>
       "${::projects::basedir}/${projectname}/etc/ssl/certs/${vhost_name}.crt",
     ssl_key             =>
