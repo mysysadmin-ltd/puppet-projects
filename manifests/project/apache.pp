@@ -7,10 +7,10 @@ define projects::project::apache (
   $apache_common = {},
 ) {
   if !defined(Class['::apache']) {
-    class { '::apache':
+    ensure_resource('class', '::apache', {
       default_vhost         => true,
       use_optional_includes => true
-    }
+    })
     include ::apache::mod::proxy
     include ::apache::mod::alias
     include ::apache::mod::proxy_http
