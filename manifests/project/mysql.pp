@@ -34,6 +34,9 @@ define projects::project::mysql (
       backupdir      => '/var/backups/mysql/',
       require => File['/var/backups'],
     }
+    package { 'bzip2':
+      ensure => installed
+    }
   }
 
   mysql::db { "$title":
