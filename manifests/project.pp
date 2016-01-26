@@ -9,13 +9,15 @@ define projects::project (
   $uid = undef,
   $gid = undef,
   $users = [],
+  $ensure = undef,
   $description = ""
 ) {
 
   # If least one project definition exists for this host, creaste the base structure
   if ($apache != {} or
       $mysql != {} or
-      $tomcat !={}) {
+      $tomcat !={} or
+      $ensure == 'present') {
     user { $title:
       comment => $description,
       uid     => $uid,
