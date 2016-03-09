@@ -13,7 +13,7 @@
 # Copyright 2015 Dan Foster, unless otherwise noted.
 #
 class projects (
-  $basedir = '/srv/projects'
+  $basedir = '/srv/projects',
   $symlink = []
 ) inherits ::projects::params {
 
