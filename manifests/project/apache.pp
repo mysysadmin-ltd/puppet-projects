@@ -139,6 +139,7 @@ define projects::project::apache::vhost (
   }
 
   ::apache::vhost { $title:
+    servername          => $vhost_name,
     port                => $port,
     ssl                 => $ssl,
     docroot             => "${::projects::basedir}/${projectname}/var/www",
