@@ -105,8 +105,15 @@ define projects::project::apache::vhost (
   $ssl = false,
   $php = false,
   $apache_user = 'apache',
-  $altnames = []
+  $altnames = [],
+  $ip = undef
 ) {
+
+  if ($ip) {
+    $ip_based = true
+  } else {
+    $ip_based = flase
+  }
 
   concat::fragment { "${projectname} apache ${title} vhost":
     target  => "${::projects::basedir}/${projectname}/README",
@@ -145,7 +152,9 @@ define projects::project::apache::vhost (
     access_log_env_var  => "!forwarded",
     custom_fragment     => "LogFormat \"%{X-Forwarded-For}i %l %u %t \\\"%r\\\" %s %b \\\"%{Referer}i\\\" \\\"%{User-Agent}i\\\"\" proxy
 SetEnvIf X-Forwarded-For \"^.*\..*\..*\..*\" forwarded
-CustomLog \"${::projects::basedir}/${projectname}/var/log/httpd/${title}_access.log\" proxy env=forwarded"
+CustomLog \"${::projects::basedir}/${projectname}/var/log/httpd/${title}_access.log\" proxy env=forwarded",
+    ip                  => $ip,
+    ip_based            => $ip_based,
   }
 
   if !defined(File["${::projects::basedir}/${projectname}/var/${docroot}"]) {
