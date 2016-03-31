@@ -37,16 +37,6 @@ define projects::project::apache (
     ensure_packages(['php-pdo', 'php-mysql', 'php-mbstring', 'php-snmp'])
   }
 
-
-  file { "${::projects::basedir}/${title}/var/www":
-    ensure  => directory,
-    owner   => $apache_user,
-    group   => $title,
-    mode    => '0570',
-    seltype => 'httpd_sys_content_t',
-    require => File["${::projects::basedir}/${title}/var"],
-  }
-
   file { "${::projects::basedir}/${title}/var/log/httpd":
     ensure  => directory,
     owner   => $apache_user,
@@ -156,8 +146,17 @@ define projects::project::apache::vhost (
     custom_fragment     => "LogFormat \"%{X-Forwarded-For}i %l %u %t \\\"%r\\\" %s %b \\\"%{Referer}i\\\" \\\"%{User-Agent}i\\\"\" proxy
 SetEnvIf X-Forwarded-For \"^.*\..*\..*\..*\" forwarded
 CustomLog \"${::projects::basedir}/${projectname}/var/log/httpd/${title}_access.log\" proxy env=forwarded"
+  }
 
-
+  if !defined(File["${::projects::basedir}/${title}/var/${docroot}"]) {
+    file { "${::projects::basedir}/${title}/var/${docroot}":
+      ensure  => directory,
+      owner   => $apache_user,
+      group   => $title,
+      mode    => '0570',
+      seltype => 'httpd_sys_content_t',
+      require => File["${::projects::basedir}/${title}/var"],
+    }
   }
 
   if $ssl == true {
