@@ -70,6 +70,9 @@ projects:
         vhost_name: 'site.example.com'
         port: 443
         ssl: true
+      'site2.example.conf':
+        port: 80
+        docroot: 'www-other'
     tomcat:
       ajp_port: 8009
 ```
@@ -103,6 +106,7 @@ The `apache` key contains a hash for virtualhost to configure for the project. E
 * `vhost_name`: The name for the Name-base Virtual Host to respond for (default: the vhost key).
 * `ssl`: Enable SSL? (default: no).
 * `altnames`: List of serveraliases to respond to (default: []).
+* `docroot`: alternative directory under <basedir>/var/ to use as the docroot. Default: www
 
 
 ### Tomcat

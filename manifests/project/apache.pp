@@ -109,7 +109,7 @@ define projects::project::apache (
 # Configures and projec apache vhost.
 define projects::project::apache::vhost (
   $projectname = undef,
-  $docroot = undef,
+  $docroot = 'www',
   $port = 80,
   $vhost_name = $title,
   $ssl = false,
@@ -142,7 +142,7 @@ define projects::project::apache::vhost (
     servername          => $vhost_name,
     port                => $port,
     ssl                 => $ssl,
-    docroot             => "${::projects::basedir}/${projectname}/var/www",
+    docroot             => "${::projects::basedir}/${projectname}/var/${docroot}",
     logroot             => "${::projects::basedir}/${projectname}/var/log/httpd",
     additional_includes =>
       ["${::projects::basedir}/${projectname}/etc/apache/conf.d/*.conf",
