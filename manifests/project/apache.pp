@@ -148,8 +148,8 @@ SetEnvIf X-Forwarded-For \"^.*\..*\..*\..*\" forwarded
 CustomLog \"${::projects::basedir}/${projectname}/var/log/httpd/${title}_access.log\" proxy env=forwarded"
   }
 
-  if !defined(File["${::projects::basedir}/${title}/var/${docroot}"]) {
-    file { "${::projects::basedir}/${title}/var/${docroot}":
+  if !defined(File["${::projects::basedir}/${projectname}/var/${docroot}"]) {
+    file { "${::projects::basedir}/${projectname}/var/${docroot}":
       ensure  => directory,
       owner   => $apache_user,
       group   => $title,
