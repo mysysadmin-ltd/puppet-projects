@@ -111,10 +111,10 @@ define projects::project::apache::vhost (
 
   if ($ip) {
     $ip_based = true
-    $add_listen = false
+    $add_listen = true
   } else {
     $ip_based = flase
-    $add_listen = true
+    $add_listen = false
   }
 
   concat::fragment { "${projectname} apache ${title} vhost":

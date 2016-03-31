@@ -107,6 +107,7 @@ The `apache` key contains a hash for virtualhost to configure for the project. E
 * `ssl`: Enable SSL? (default: no).
 * `altnames`: List of serveraliases to respond to (default: []).
 * `docroot`: alternative directory under <basedir>/var/ to use as the docroot. Default: www
+* `ip`: Enables IP virtualhosting instead of namebased virtual hosting and only listens on the IP specified.
 
 
 ### Tomcat
