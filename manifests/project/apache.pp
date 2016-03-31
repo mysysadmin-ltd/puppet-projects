@@ -152,7 +152,7 @@ CustomLog \"${::projects::basedir}/${projectname}/var/log/httpd/${title}_access.
     file { "${::projects::basedir}/${projectname}/var/${docroot}":
       ensure  => directory,
       owner   => $apache_user,
-      group   => $title,
+      group   => $projectname,
       mode    => '0570',
       seltype => 'httpd_sys_content_t',
       require => File["${::projects::basedir}/${projectname}/var"],
