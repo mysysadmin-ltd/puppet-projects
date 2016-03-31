@@ -111,10 +111,8 @@ define projects::project::apache::vhost (
 
   if ($ip) {
     $ip_based = true
-    $add_listen = true
   } else {
-    $ip_based = flase
-    $add_listen = false
+    $ip_based = false
   }
 
   concat::fragment { "${projectname} apache ${title} vhost":
@@ -157,7 +155,11 @@ SetEnvIf X-Forwarded-For \"^.*\..*\..*\..*\" forwarded
 CustomLog \"${::projects::basedir}/${projectname}/var/log/httpd/${title}_access.log\" proxy env=forwarded",
     ip                  => $ip,
     ip_based            => $ip_based,
-    add_listen          => $add_listen,
+    add_listen          => false,
+  }
+
+  if !defined(Apache::Listen["$port"]) {
+    ::apache::listen { "$port":}
   }
 
   if !defined(File["${::projects::basedir}/${projectname}/var/${docroot}"]) {
