@@ -155,7 +155,7 @@ CustomLog \"${::projects::basedir}/${projectname}/var/log/httpd/${title}_access.
       group   => $title,
       mode    => '0570',
       seltype => 'httpd_sys_content_t',
-      require => File["${::projects::basedir}/${title}/var"],
+      require => File["${::projects::basedir}/${projectname}/var"],
     }
   }
 
