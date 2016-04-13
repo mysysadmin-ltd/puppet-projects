@@ -37,6 +37,11 @@ define projects::project::apache (
     ensure_packages(['php-pdo', 'php-mysql', 'php-mbstring', 'php-snmp'])
   }
 
+  if $apache_+common['mpm'] == 'event' {
+    include ::apache::mod::event
+  {
+
+
   file { "${::projects::basedir}/${title}/var/log/httpd":
     ensure  => directory,
     owner   => $apache_user,
