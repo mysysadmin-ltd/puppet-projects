@@ -9,7 +9,7 @@ define projects::project::apache (
   if !defined(Class['::apache']) {
     ensure_resource('class', '::apache', {
       default_vhost         => true,
-      use_optional_includes => true
+      use_optional_includes => true,
       mpm_module            => false
     })
     include ::apache::mod::proxy
