@@ -97,6 +97,8 @@ The following hash keys under the project shortname are used for common data. It
 #### `common_apache`
 
 * `php`: Enable `mod_php`? (default: no).
+* `mpm`: Specifies MPM worker to use
+* `
 
 ### Apache
 
