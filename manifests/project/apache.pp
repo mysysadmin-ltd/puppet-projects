@@ -37,7 +37,7 @@ define projects::project::apache (
     ensure_packages(['php-pdo', 'php-mysql', 'php-mbstring', 'php-snmp'])
   }
 
-  if $apache_+common['mpm'] == 'event' {
+  if $apache_common['mpm'] == 'event' {
     include ::apache::mod::event
   }
 
