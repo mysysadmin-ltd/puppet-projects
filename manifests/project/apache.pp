@@ -20,6 +20,8 @@ define projects::project::apache (
       verifyServerCert => false
     }
 
+    include ::apache::mod::status
+
     if defined(Class['::selinux']) {
       ensure_resource('selinux::boolean', 'httpd_can_connect_ldap', {'ensure' =>  'on'})
     }
