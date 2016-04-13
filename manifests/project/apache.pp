@@ -39,7 +39,7 @@ define projects::project::apache (
 
   if $apache_+common['mpm'] == 'event' {
     include ::apache::mod::event
-  {
+  }
 
 
   file { "${::projects::basedir}/${title}/var/log/httpd":
