@@ -10,6 +10,7 @@ define projects::project::apache (
     ensure_resource('class', '::apache', {
       default_vhost         => true,
       use_optional_includes => true
+      mpm_module            => false
     })
     include ::apache::mod::proxy
     include ::apache::mod::alias
@@ -39,6 +40,8 @@ define projects::project::apache (
 
   if $apache_common['mpm'] == 'event' {
     include ::apache::mod::event
+  } else {
+    include ::apache::mod::prefork
   }
 
 
