@@ -209,6 +209,7 @@ CustomLog \"${::projects::basedir}/${projectname}/var/log/httpd/${title}_access.
       ensure   => present,
       require  => File["${::projects::basedir}/${projectname}/etc/ssl/private"],
       before   => Class['::apache']",
+
     }
 
     x509_request { "${::projects::basedir}/${projectname}/etc/ssl/csrs/${vhost_name}.auto.csr" :
