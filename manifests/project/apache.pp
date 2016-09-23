@@ -200,6 +200,7 @@ CustomLog \"${::projects::basedir}/${projectname}/var/log/httpd/${title}_access.
       private_key => "${::projects::basedir}/${projectname}/etc/ssl/private/${vhost_name}.auto.key",
       days        => 4536,
       require => [Ssl_pkey["${::projects::basedir}/${projectname}/etc/ssl/private/${vhost_name}.auto.key"],File["${::projects::basedir}/${projectname}/etc/ssl/conf/${vhost_name}.cnf"]],
+      before => Class['::apache']",
     }
 
     exec { "deploy ${vhost_name}.key" :
