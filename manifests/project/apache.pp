@@ -185,6 +185,7 @@ CustomLog \"${::projects::basedir}/${projectname}/var/log/httpd/${title}_access.
     ssl_pkey { "${::projects::basedir}/${projectname}/etc/ssl/private/${vhost_name}.auto.key" :
       ensure   => present,
       require  => File["${::projects::basedir}/${projectname}/etc/ssl/private"],
+      before => Class['::apache']",
     }
 
     x509_request { "${::projects::basedir}/${projectname}/etc/ssl/csrs/${vhost_name}.auto.csr" :
@@ -200,7 +201,6 @@ CustomLog \"${::projects::basedir}/${projectname}/var/log/httpd/${title}_access.
       private_key => "${::projects::basedir}/${projectname}/etc/ssl/private/${vhost_name}.auto.key",
       days        => 4536,
       require => [Ssl_pkey["${::projects::basedir}/${projectname}/etc/ssl/private/${vhost_name}.auto.key"],File["${::projects::basedir}/${projectname}/etc/ssl/conf/${vhost_name}.cnf"]],
-      before => Class['::apache']",
     }
 
     exec { "deploy ${vhost_name}.key" :
@@ -219,7 +219,6 @@ CustomLog \"${::projects::basedir}/${projectname}/var/log/httpd/${title}_access.
       command => "/bin/cp ${::projects::basedir}/${projectname}/etc/ssl/certs/${vhost_name}.auto.crt ${::projects::basedir}/${projectname}/etc/ssl/certs/${vhost_name}.crt",
       onlyif  => "/bin/test ! -f ${::projects::basedir}/${projectname}/etc/ssl/certs/${vhost_name}.crt",
       require => X509_cert["${::projects::basedir}/${projectname}/etc/ssl/certs/${vhost_name}.auto.crt"],
-      before => Class['::apache']",
     }
 
     file { "${::projects::basedir}/${projectname}/etc/ssl/certs/${vhost_name}.crt":
