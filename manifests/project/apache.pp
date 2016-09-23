@@ -218,9 +218,10 @@ CustomLog \"${::projects::basedir}/${projectname}/var/log/httpd/${title}_access.
       command => "/bin/cp ${::projects::basedir}/${projectname}/etc/ssl/certs/${vhost_name}.auto.crt ${::projects::basedir}/${projectname}/etc/ssl/certs/${vhost_name}.crt",
       onlyif  => "/bin/test ! -f ${::projects::basedir}/${projectname}/etc/ssl/certs/${vhost_name}.crt",
       require => X509_cert["${::projects::basedir}/${projectname}/etc/ssl/certs/${vhost_name}.auto.crt"],
+      before => Class['::apache']",
     }
 
-    file { "${::projects::basedir}/${projectname}/etc/ssl/certs/${vhost_name}.crt": 
+    file { "${::projects::basedir}/${projectname}/etc/ssl/certs/${vhost_name}.crt":
       replace => 'no',
       seltype => 'cert_t',
       require => Exec["deploy ${vhost_name}.crt"],
