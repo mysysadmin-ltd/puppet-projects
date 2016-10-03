@@ -160,9 +160,10 @@ define projects::project::apache::vhost (
       "${::projects::basedir}/${projectname}/etc/ssl/private/${vhost_name}.key",
     serveraliases       => $altnames,
     access_log_env_var  => "!forwarded",
-    custom_fragment     => "LogFormat \"%{X-Forwarded-For}i %l %u %t \\\"%r\\\" %s %b \\\"%{Referer}i\\\" \\\"%{User-Agent}i\\\"\" proxy
+    custom_fragment     => '
+LogFormat \"%{X-Forwarded-For}i %l %u %t \\\"%r\\\" %s %b \\\"%{Referer}i\\\" \\\"%{User-Agent}i\\\"\" proxy
 SetEnvIf X-Forwarded-For \"^.*\..*\..*\..*\" forwarded
-CustomLog \"${::projects::basedir}/${projectname}/var/log/httpd/${title}_access.log\" proxy env=forwarded",
+CustomLog \"${::projects::basedir}/${projectname}/var/log/httpd/${title}_access.log\" proxy env=forwarded"',
     ip                  => $ip,
     ip_based            => $ip_based,
     add_listen          => false,
