@@ -56,8 +56,8 @@ define projects::project (
     }
 
     concat { "${::projects::basedir}/${title}/README":
-      owner => $uid,
-      group => $gid,
+      owner => $title,
+      group => $title,
       mode  => '0640',
     }
 
