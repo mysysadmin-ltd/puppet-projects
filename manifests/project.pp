@@ -93,6 +93,10 @@ define projects::project (
       grant    => pick($mysql[grant],['ALL']),
     }
   }
+
+  sudo::conf { "${title}-reset-perms":
+    content => "%${title} ALL= (ALL) /usr/local/bin/reset-perms"
+  }
 }
 
 define project_user (
@@ -102,9 +106,3 @@ define project_user (
     groups +> $group,
   }
 }
-
-sudo::conf { "${title}-reset-perms":
-  content => "%${title} ALL= (ALL) /usr/local/bin/reset-perms"
-}
-
-
