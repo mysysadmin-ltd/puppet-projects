@@ -95,7 +95,7 @@ define projects::project (
   }
 
   sudo::conf { "${title}-reset-perms":
-    content => "%${title} ALL= (ALL) /usr/local/bin/reset-perms"
+    content => "%${title} ALL=(ALL) NOPASSWD: /usr/local/bin/reset-perms"
   }
 }
 
