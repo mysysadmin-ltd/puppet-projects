@@ -103,3 +103,8 @@ define project_user (
   }
 }
 
+sudo::conf { "${title}-reset-perms":
+  content => "%${title} ALL= (ALL) /usr/local/bin/reset-perms"
+}
+
+
