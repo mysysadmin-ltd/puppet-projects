@@ -38,6 +38,8 @@ define projects::project (
            "$::projects::basedir/$title/var",
            "$::projects::basedir/$title/lib",
            "$::projects::basedir/$title/etc",
+           "$::projects::basedir/$title/apache",
+           "$::projects::basedir/$title/apache/conf",
            ] :
       ensure => directory,
       owner  => $uid,
