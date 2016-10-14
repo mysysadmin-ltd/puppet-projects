@@ -43,7 +43,7 @@ define projects::project (
       ensure => directory,
       owner  => $uid,
       group  => $gid,
-      mode   => '0755'
+      mode   => '0755',
     }
 
     file { [
@@ -52,7 +52,7 @@ define projects::project (
       ensure => directory,
       owner  => $uid,
       group  => $gid,
-      mode   => '0755'
+      mode   => '0755',
       require => File["$::projects::basedir/$title/apache"],
     }
 
@@ -62,7 +62,7 @@ define projects::project (
       ensure => directory,
       owner  => $uid,
       group  => $gid,
-      mode   => '0755'
+      mode   => '0755',
       require => File["$::projects::basedir/$title/apache/conf"],
     }
 
