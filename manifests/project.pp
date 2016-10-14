@@ -34,11 +34,8 @@ define projects::project (
       group => $title
     }
 
-    file { [ "$::projects::basedir/$title",
-           "$::projects::basedir/$title/var",
-           "$::projects::basedir/$title/lib",
-           "$::projects::basedir/$title/etc",
-           "$::projects::basedir/$title/apache",
+    file { [
+           "$::projects::basedir/$title",
            ] :
       ensure => directory,
       owner  => $uid,
@@ -47,12 +44,25 @@ define projects::project (
     }
 
     file { [
+           "$::projects::basedir/$title/var",
+           "$::projects::basedir/$title/lib",
+           "$::projects::basedir/$title/etc",
+           "$::projects::basedir/$title/apache",
+           ] :
+      ensure => directory,
+      owner  => $uid,
+      group  => $gid,
+      mode   => '0775',
+      require => File["$::projects::basedir/$title"],
+    }
+
+    file { [
            "$::projects::basedir/$title/apache/conf",
            ] :
       ensure => directory,
       owner  => $uid,
       group  => $gid,
-      mode   => '0755',
+      mode   => '0775',
       require => File["$::projects::basedir/$title/apache"],
     }
 
@@ -62,7 +72,7 @@ define projects::project (
       ensure => directory,
       owner  => $uid,
       group  => $gid,
-      mode   => '0755',
+      mode   => '0775',
       require => File["$::projects::basedir/$title/apache/conf"],
     }
 
