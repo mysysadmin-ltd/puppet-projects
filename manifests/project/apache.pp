@@ -94,6 +94,36 @@ define projects::project::apache (
     require => File["${::projects::basedir}/${title}/etc/ssl"],
   }
 
+  file { [
+         "$::projects::basedir/$title/apache",
+         ] :
+    ensure => directory,
+    owner  => $title,
+    group  => $title,
+    mode   => '0775',
+    require => File["$::projects::basedir/$title"],
+  }
+  
+  file { [
+         "$::projects::basedir/$title/apache/conf",
+         ] :
+    ensure => directory,
+    owner  => $title,
+    group  => $title,
+    mode   => '0775',
+    require => File["$::projects::basedir/$title/apache"],
+  }
+  
+  file { [
+         "$::projects::basedir/$title/apache/conf/conf.d",
+         ] :
+    ensure => directory,
+    owner  => $title,
+    group  => $title,
+    mode   => '0775',
+    require => File["$::projects::basedir/$title/apache/conf"],
+  }
+  
   sudo::conf { "${title}-apache":
     content => "%${title} ALL= (ALL) /sbin/apachectl"
   }
