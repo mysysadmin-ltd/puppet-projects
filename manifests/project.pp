@@ -43,6 +43,15 @@ define projects::project (
       mode   => '0755',
     }
 
+    file { '$::projects::basedir/$title/.ssh':
+      ensure   => 'directory',
+      owner  => $uid,
+      group  => $gid,
+      mode     => '700',
+      seltype  => 'ssh_home_t',
+      require => File["$::projects::basedir/$title"],
+    }
+
     file { [
            "$::projects::basedir/$title/var",
            "$::projects::basedir/$title/lib",
