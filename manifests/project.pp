@@ -49,7 +49,6 @@ define projects::project (
       group  => $gid,
       mode     => '700',
       seltype  => 'ssh_home_t',
-      require => File["$::projects::basedir/$title"],
     }
 
     file { [
@@ -61,7 +60,6 @@ define projects::project (
       owner  => $uid,
       group  => $gid,
       mode   => '0775',
-      require => File["$::projects::basedir/$title"],
     }
 
     file { "$::projects::basedir/$title/var/log":
@@ -70,7 +68,6 @@ define projects::project (
       group   => $gid,
       mode    => '0750',
       seltype => 'var_log_t',
-      require => File["$::projects::basedir/$title/var"],
     }
 
     concat { "${::projects::basedir}/${title}/README":
