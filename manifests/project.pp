@@ -43,7 +43,7 @@ define projects::project (
       mode   => '0755',
     }
 
-    file { '$::projects::basedir/$title/.ssh':
+    file { "$::projects::basedir/$title/.ssh":
       ensure   => 'directory',
       owner  => $uid,
       group  => $gid,
