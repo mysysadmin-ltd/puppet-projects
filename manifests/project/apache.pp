@@ -52,7 +52,7 @@ define projects::project::apache (
     owner   => $apache_user,
     group   => $title,
     mode    => '0750',
-    seltype => 'var_log_t',
+    seltype => 'httpd_log_t',
     require => File["${::projects::basedir}/${title}/var/log"],
   }
 
@@ -65,6 +65,7 @@ define projects::project::apache (
     ensure  => directory,
     owner   => $title,
     group   => $title,
+    seltype => 'httpd_config_t',
     require => File["${::projects::basedir}/${title}/etc"],
   }
 
@@ -81,6 +82,7 @@ define projects::project::apache (
     ensure  => directory,
     owner   => $title,
     group   => $title,
+    seltype => 'cert_t',
     require => File["${::projects::basedir}/${title}/etc"],
   }
 

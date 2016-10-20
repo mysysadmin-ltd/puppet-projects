@@ -52,8 +52,6 @@ define projects::project (
     }
 
     file { [
-           "$::projects::basedir/$title/var",
-           "$::projects::basedir/$title/lib",
            "$::projects::basedir/$title/etc",
            ] :
       ensure => directory,
@@ -62,12 +60,32 @@ define projects::project (
       mode   => '0775',
     }
 
+    file { [
+           "$::projects::basedir/$title/var",
+           ] :
+      ensure => directory,
+      owner  => $uid,
+      group  => $gid,
+      seltype => 'httpd_sys_content_t',
+      mode   => '0775',
+    }
+
+    file { [
+           "$::projects::basedir/$title/lib",
+           ] :
+      ensure => directory,
+      owner  => $uid,
+      group  => $gid,
+      mode   => '0775',
+      seltype => 'httpd_sys_content_t',
+    }
+
     file { "$::projects::basedir/$title/var/log":
       ensure  => directory,
       owner   => $uid,
       group   => $gid,
       mode    => '0750',
-      seltype => 'var_log_t',
+      seltype => 'httpd_log_t',
     }
 
     concat { "${::projects::basedir}/${title}/README":
